@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Home</title>	
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic&amp;subset=latin,latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open%20Sans:300,400,400italic,600,600italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
@@ -16,6 +16,8 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
 @livewireStyles
+
+  
 </head>
 <body class="home-page home-01 ">
 
@@ -42,8 +44,7 @@
 						</div>
 						<div class="topbar-menu right-menu">
 							<ul>
-								<li class="menu-item" ><a title="Register or Login" href="login.html">Login</a></li>
-								<li class="menu-item" ><a title="Register or Login" href="register.html">Register</a></li>
+
 								<li class="menu-item lang-menu menu-item-has-children parent">
 									<a title="English" href="#"><span class="img label-before"><img src="assets/images/lang-en.png" alt="lang-en"></span>English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 									<ul class="submenu lang" >
@@ -67,6 +68,43 @@
 										</li>
 									</ul>
 								</li>
+								@if(Route::has('login'))
+    @auth
+        @if(Auth::user()->utype === 'ADM')
+            <li class="menu-item menu-item-has-children parent">
+                <a title="My Account" href="#">
+                    My Account ({{ Auth::user()->name }}) 
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <ul class="submenu currency">
+                    <li class="menu-item">
+                        <a title="Dashboard" href="#">Dashboard</a>
+                    </li>                    
+                </ul>
+            </li>
+        @else
+            <li class="menu-item menu-item-has-children parent">
+                <a title="My Account" href="#">
+                    My Account ({{ Auth::user()->name }}) 
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <ul class="submenu currency">
+                    <li class="menu-item">
+                        <a title="Dashboard" href="#">Dashboard</a>
+                    </li>                    
+                </ul>
+            </li>
+        @endif
+    @else
+        <li class="menu-item">
+            <a title="Register or Login" href="{{ route('login') }}">Login</a>
+        </li>
+        <li class="menu-item">
+            <a title="Register or Login" href="{{ route('register') }}">Register</a>
+        </li>
+    @endauth
+                                @endif
+
 							</ul>
 						</div>
 					</div>
@@ -449,6 +487,7 @@
 	<script src="{{asset('assets/js/jquery.countdown.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.sticky.js')}}"></script>
 	<script src="{{asset('assets/js/functions.js')}}"></script>
+	
     @livewireScripts
 </body>
 </html>
